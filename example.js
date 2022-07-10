@@ -38,6 +38,9 @@ app.listen(port, () =>{
 })
 
 //Mostra a última mensagem recebida
+app.get('/', AuthMidleware , (req, res)=> {
+    return res.send(url) 
+})
 app.get('/MensagemRecebida', AuthMidleware , (req, res)=> {
     return res.json(msgRecebida) 
 })
