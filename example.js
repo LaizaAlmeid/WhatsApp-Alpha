@@ -1,8 +1,12 @@
 const { Client, Location, List, Buttons, LocalAuth} = require('./index');
 
-var QRCode = require('qrcode')
+var QRCode = require('qrcode');
 
 const axios = require("axios");
+var teste
+
+const ejs = require('ejs');
+const path = require('path');
 
 const client = new Client({
     authStrategy: new LocalAuth(),
@@ -23,13 +27,19 @@ const bodyParser = require('body-parser');
 //autenticacao
 const LoginController = require('./app/Controllers/LoginController');
 const AuthMidleware = require('./app/Midlewares/AuthMidleware');
+const { url } = require('inspector');
 //
 const app = express()
 
+
 app.use(morgan('dev'))
+//app.use(express.urlencoded({ extended: false}))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.json())
 app.use(cors())
+
+app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname,'view'))
 
 //ROTAS------------------------------------------------
 const port = process.env.PORT || 3000;
@@ -38,8 +48,13 @@ app.listen(port, () =>{
 })
 
 //Mostra a última mensagem recebida
-app.get('/', AuthMidleware , (req, res)=> {
-    return res.send(url) 
+app.get('/ver', (req, res, next)=>{
+    QRCode.toDataURL(teste, (err, src)=>{
+        res.render('index',{
+            qr_code: src,
+        })
+    })
+    //res.render("index");
 })
 app.get('/MensagemRecebida', AuthMidleware , (req, res)=> {
     return res.json(msgRecebida) 
@@ -77,6 +92,7 @@ async function post_alpha(){
 client.on('qr', (qr) => {
     //NOTA: Este evento não será acionado se uma sessão for especificada.
     console.log('QR RECEIVED', qr);
+    teste= qr
     QRCode.toString(qr,{type:'terminal', small: 1 }, function (err, url) {
         console.log(url)
       })
