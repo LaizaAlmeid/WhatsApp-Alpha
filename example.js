@@ -3,7 +3,8 @@ const { Client, Location, List, Buttons, LocalAuth} = require('./index');
 var QRCode = require('qrcode');
 
 const axios = require("axios");
-var teste
+var code_qr
+var ok = 0
 
 const ejs = require('ejs');
 const path = require('path');
@@ -62,11 +63,15 @@ app.listen(port, () =>{
 
 //Mostra a última mensagem recebida
 app.get('/ver', (req, res, next)=>{
-    QRCode.toDataURL(teste, (err, src)=>{
-        res.render('index',{
-            qr_code: src,
-        })
+    if(ok==1){
+        QRCode.toDataURL(code_qr, (err, src)=>{
+            res.render('index',{
+                qr_code: src,
+         })
     })
+    }else{
+        res.send('Aguarde enquanto o qrcode é gerado...')
+    }
     //res.render("index");
 })
 app.get('/MensagemRecebida', AuthMidleware , (req, res)=> {
@@ -105,7 +110,8 @@ async function post_alpha(){
 client.on('qr', (qr) => {
     //NOTA: Este evento não será acionado se uma sessão for especificada.
     console.log('QR RECEIVED', qr);
-    teste= qr
+    code_qr = qr
+    ok=1
     QRCode.toString(qr,{type:'terminal', small: 1 }, function (err, url) {
         console.log(url)
       })
