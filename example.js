@@ -70,7 +70,7 @@ app.get('/ver', (req, res, next)=>{
          })
     })
     }else{
-        res.send('Aguarde enquanto o qrcode é gerado...')
+        res.send('Aguarde enquanto o qrcode é gerado...Atualize a página em alguns segundos!')
     }
     //res.render("index");
 })
@@ -93,7 +93,7 @@ app.post('/EnviarMensagem' , AuthMidleware , (req, res) => {
           para: texto.result.ParaNumero
         }
       })
-    return res.json(texto.result.mensagem) 
+    //return res.json(texto.result.mensagem) 
 })
 
 app.post('/login', LoginController.index)
@@ -102,7 +102,7 @@ app.post('/login', LoginController.index)
 //API ALPHA
 async function post_alpha(){
     try {
-     const mensagembody = {  mensagemB: msgRecebida, De: from}
+     const mensagembody = {  mensagemB: msgRecebida, De_Cliente: from}
      const response = await axios.post('https://sitema-alpha-provedornet.bubbleapps.io/version-test/api/1.1/wf/apiwpp', mensagembody)
      //return res.json(msgRecebida) 
      console.log(response.message)
@@ -144,7 +144,9 @@ client.on('message', async msg => {
    
     //RECEBE AS INFORMACOES DE MENSAGEM DO WPP
     msgRecebida = msg.body
-    from = msg.from
+    //EDITA O NUMERO RECEBIDO
+    let text = msg.from;
+    from = text.substring(0, 12);
 
     //CHAMA O ENDPOINT(API WORKFLOW) DO ALPHA
     post_alpha()
