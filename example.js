@@ -103,8 +103,8 @@ app.post('/login', LoginController.index)
 async function post_alpha(){
     try {
      const mensagembody = {  mensagemB: msgRecebida, De_Cliente: from}
-     //const response = await axios.post('https://sitema-alpha-provedornet.bubbleapps.io/version-test/api/1.1/wf/apiwpp', mensagembody)
-     const response = await axios.post('https://sitema-alpha-provedornet.bubbleapps.io/version-test/api/1.1/wf/apiwpp/initialize', mensagembody)
+     const response = await axios.post('https://sitema-alpha-provedornet.bubbleapps.io/version-test/api/1.1/wf/apiwpp', mensagembody)
+     //const response = await axios.post('https://sitema-alpha-provedornet.bubbleapps.io/version-test/api/1.1/wf/apiwpp/initialize', mensagembody)
      //return res.json(msgRecebida) 
      console.log(response.message)
  
