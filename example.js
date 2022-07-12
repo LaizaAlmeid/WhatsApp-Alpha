@@ -124,20 +124,20 @@ async function post_env_alpha() {
 }
 async function post_att_alpha() {
     try {
-        const mensagembody = {
+        const mensagembody2 = {
             mensagem: msgAtt,
             status: stt,
             De_Cliente: from,
         };
         //const response = await axios.post('https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem/initialize', mensagembody)
         const response = await axios.post(
-            "https://sistema-alpha.com.br/version-test/api/1.1/wf/AtualizaMensagem",
-            mensagembody
+            "https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/atualizamensagem/initialize",
+            mensagembody2
         );
         //const response = await axios.post('https://sitema-alpha-provedornet.bubbleapps.io/version-test/api/1.1/wf/apiwpp', mensagembody)
         //const response = await axios.post('https://sitema-alpha-provedornet.bubbleapps.io/version-test/api/1.1/wf/apiwpp/initialize', mensagembody)
         //return res.json(msgRecebida)
-        console.log(response.message);
+        //console.log(response.message);
     } catch (error) {
         console.log(error);
     }
@@ -223,17 +223,16 @@ client.on("message_ack", (msg, ack) => {
     */
     if (ack == 1) {
         // A MENSAGEM É ENVIADA
-        msgAtt == msg.body;
-        stt == ack;
-        text = msg.from;
-        from = text.substring(0, 12);
-        post_att_alpha();
+        // msgAtt == msg.body;
+        // stt == ack;
+        // text = msg.from;
+        // from = text.substring(0, 12);
         console.log("enviada : " + msg.body);
     }
     if (ack == 2) {
         // A MENSAGEM É RECEBIDA
         msgAtt == msg.body;
-        stt == ack;
+        stt == '1';
         text = msg.from;
         from = text.substring(0, 12);
         post_att_alpha();
@@ -243,8 +242,7 @@ client.on("message_ack", (msg, ack) => {
         // A MENSAGEM É LIDA
         msgAtt == msg.body;
         stt == ack;
-        text = msg.from;
-        from = text.substring(0, 12);
+        
         post_att_alpha();
         console.log("lida : " + msg.body);
     }
