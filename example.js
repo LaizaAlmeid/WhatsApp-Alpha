@@ -124,11 +124,7 @@ async function post_env_alpha() {
 }
 async function post_att_alpha() {
     try {
-        const mensagembody2 = {
-            mensagem: msgAtt,
-            status: stt,
-            De_Cliente: from,
-        };
+        const mensagembody2 = { mensagem: msgAtt, status: stt, De_Cliente: from};
         //const response = await axios.post('https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem/initialize', mensagembody)
         const response = await axios.post(
             "https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/atualizamensagem/initialize",
