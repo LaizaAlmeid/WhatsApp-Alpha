@@ -208,7 +208,6 @@ client.on("message_ack", (msg, ack) => {
     let text = msg.from;
     from = text.substring(0, 12);
     msg_att= msg.body
-    stt_att= ack.toString
 
     if (ack == 1) {
         // A MENSAGEM É ENVIADA
