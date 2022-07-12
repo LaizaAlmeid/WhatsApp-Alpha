@@ -117,7 +117,7 @@ async function post_att_alpha(msg_att, stt_att, para_num) {
     try {
         const mensagembody_att = { mensagem_att: msg_att, status: stt_att.toString , De_Cliente: para_num };
         //const response = await axios.post("https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/AtualizaMensagem",mensagembody_att);
-        const response = await axios.post('https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/AtualizaMensagem/initialize', mensagembody_att);
+        const response = await axios.post('https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/atualizamensagem/initialize', mensagembody_att);
         console.log(response.message);
     } catch (error) {
         console.log(error);
