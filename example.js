@@ -133,7 +133,7 @@ async function post_att_alpha() {
         //const response = await axios.post('https://sitema-alpha-provedornet.bubbleapps.io/version-test/api/1.1/wf/apiwpp', mensagembody)
         //const response = await axios.post('https://sitema-alpha-provedornet.bubbleapps.io/version-test/api/1.1/wf/apiwpp/initialize', mensagembody)
         //return res.json(msgRecebida)
-        //console.log(response.message);
+        console.log(response.message);
     } catch (error) {
         console.log(error);
     }
