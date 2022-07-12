@@ -31,10 +31,7 @@ const client = new Client({
 var msgRecebida;
 //CAPTA O NUMERO DO REMETENTE DO 'RECEIVE'
 var from;
-//MENSAGEM STATUS ATUALIZADO
-var msgAtt;
 //STATUS 1-ENVIADA/2-RECEBIDA/3-LIDA
-var stt;
 
 client.initialize();
 
@@ -122,13 +119,17 @@ async function post_env_alpha() {
         console.log(error);
     }
 }
-async function post_att_alpha() {
+async function post_att_alpha(msg_att, stt_att, para_num) {
     try {
-        const mensagembody2 = { mensagem: msg.body, status: ack, De_Cliente: from};
+        const mensagembody_att = {
+            mensagem: msg_att,
+            status: stt_att,
+            De_Cliente: para_num,
+        };
         //const response = await axios.post('https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem/initialize', mensagembody)
         const response = await axios.post(
-            "https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/atualizamensagem/initialize",
-            mensagembody2
+            "https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/atualizamensagem",
+            mensagembody_att
         );
         //const response = await axios.post('https://sitema-alpha-provedornet.bubbleapps.io/version-test/api/1.1/wf/apiwpp', mensagembody)
         //const response = await axios.post('https://sitema-alpha-provedornet.bubbleapps.io/version-test/api/1.1/wf/apiwpp/initialize', mensagembody)
@@ -219,28 +220,37 @@ client.on("message_ack", (msg, ack) => {
     */
     if (ack == 1) {
         // A MENSAGEM É ENVIADA
-        // msgAtt == msg.body;
-        // stt == ack;
-        // text = msg.from;
-        // from = text.substring(0, 12);
-        console.log("enviada : " + msg.body);
+        let text = msg.from;
+        from = text.substring(0, 12);
+        post_att_alpha(msg.body, ack, from);
+
+        console.log("enviada:: msg: " + msg.body);
+        console.log("enviada:: num: " + from);
+        console.log("enviada:: status: " + ack);
+
+        console.log("ENVIADA : " + msg.body);
     }
     if (ack == 2) {
         // A MENSAGEM É RECEBIDA
-        msgAtt == msg.body;
-        stt == '1';
-        text = msg.from;
+        let text = msg.from;
         from = text.substring(0, 12);
-        post_att_alpha();
-        console.log("recebida : " + msg.body);
+        post_att_alpha(msg.body, ack, from);
+
+        console.log("enviada:: msg: " + msg.body);
+        console.log("enviada:: num: " + from);
+        console.log("enviada:: status: " + ack);
+
+        console.log("RECEBIDA : " + msg.body);
     }
     if (ack == 3) {
         // A MENSAGEM É LIDA
-        msgAtt == msg.body;
-        stt == ack;
-        
-        post_att_alpha();
-        console.log("lida : " + msg.body);
+        post_att_alpha(msg.body, ack, from);
+
+        console.log("enviada:: msg: " + msg.body);
+        console.log("enviada:: num: " + from);
+        console.log("enviada:: status: " + ack);
+
+        console.log("LIDA : " + msg.body);
     }
 });
 
