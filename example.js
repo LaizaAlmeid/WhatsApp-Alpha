@@ -118,7 +118,7 @@ var stt_att
 
 async function post_att_alpha() {
     try {
-        const mensagembody_att = { mensagem_att : msg_att, De_Cliente : from , stts : stt_att.toString };
+        const mensagembody_att = { mensagem_att : msg_att, De_Cliente : from , stts : stt_att };
         //const response = await axios.post("https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/AtualizaMensagem",mensagembody_att);
         const response = await axios.post('https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/atualizamensagem/', mensagembody_att);
         console.log(response.message);
@@ -212,6 +212,7 @@ client.on("message_ack", (msg, ack) => {
 
     if (ack == 1) {
         // A MENSAGEM É ENVIADA
+        stt_att= "1"
         post_att_alpha();
 
         console.log("enviada:: msg: " + msg.body);
@@ -222,6 +223,7 @@ client.on("message_ack", (msg, ack) => {
     }
     if (ack == 2) {
         // A MENSAGEM É RECEBIDA
+        stt_att= "2"
         post_att_alpha();
 
         console.log("enviada:: msg: " + msg.body);
@@ -232,6 +234,7 @@ client.on("message_ack", (msg, ack) => {
     }
     if (ack == 3) {
         // A MENSAGEM É LIDA
+        stt_att= "3"
         post_att_alpha();
 
         console.log("enviada:: msg: " + msg.body);
