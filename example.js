@@ -55,9 +55,9 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "view"));
 
 //ROTAS------------------------------------------------
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 app.listen(port, () => {
-    console.log("express started at http://localhost:3000");
+    console.log("express started at http://localhost:3001");
 });
 
 //Mostra a última mensagem recebida
@@ -119,9 +119,9 @@ var stt_att;
 
 async function post_att_alpha() {
     try {
-        const mensagembody_att = {mensagem_att: msg_att, De_Cliente: from, stts: stt_att};
+        const mensagembody_att = {mensagem_att: msg_att , De_Cliente: from , stts: stt_att , id_msg: id_msg};
         //const response = await axios.post("https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/AtualizaMensagem",mensagembody_att);
-        const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarMsg", mensagembody_att);
+        const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarMsg",mensagembody_att);
         console.log(response.message);
     } catch (error) {
         console.log(error);
@@ -156,7 +156,6 @@ client.on("message", async (msg) => {
     console.log("MESSAGE RECEIVED", msg);
 
     id_msg = msg.id.id;
-    console.log(id_msg)
     console.log(msg.id.id)
     //RECEBE AS INFORMACOES DE MENSAGEM DO WPP
     msgRecebida = msg.body;
@@ -212,30 +211,30 @@ client.on("message_ack", (msg, ack) => {
     let text = msg.from;
     from = text.substring(0, 12);
     msg_att = msg.body;
-    var id = _data.id;
+    id_msg = msg.id.id;
 
     console.log("enviada:: msg: " + msg.body);
     console.log("enviada:: num: " + from);
     console.log("enviada:: status: " + ack);
-    console.log("id:::::  " + id);
+    console.log("id:::::  " + msg.id.id);
 
     if (ack == 1) {
         // A MENSAGEM É ENVIADA
         stt_att = "1";
-        console.log("ENVIADA : " + msg.body);
+        console.log("ENVIADA ack: " + msg.body);
 
         post_att_alpha();
     }
     if (ack == 2) {
         // A MENSAGEM É RECEBIDA
         stt_att = "2";
-        console.log("RECEBIDA : " + msg.body);
+        console.log("RECEBIDA ack: " + msg.body);
         post_att_alpha();
     }
     if (ack == 3) {
         // A MENSAGEM É LIDA
         stt_att = "3";
-        console.log("LIDA : " + msg.body);
+        console.log("LIDA ack: " + msg.body);
         post_att_alpha();
     }
 });
