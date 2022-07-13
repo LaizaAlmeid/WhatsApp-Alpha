@@ -107,22 +107,26 @@ async function post_env_alpha() {
     try {
         const mensagembody = { mensagemB: msgRecebida, De_Cliente: from };
         //const response = await axios.post('https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem/initialize', mensagembody)
-        const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem", mensagembody );
+        const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem",mensagembody);
         console.log(response.message);
     } catch (error) {
         console.log(error);
     }
 }
 //-------------------------------------------------------------
-var msg_att
-var stt_att
+var msg_att;
+var stt_att;
 
 async function post_att_alpha() {
     try {
-        const mensagembody_att = { mensagem_att : msg_att, De_Cliente : from , stts : stt_att };
+        const mensagembody_att = {
+            mensagem_att: msg_att,
+            De_Cliente: from,
+            stts: stt_att,
+        };
         //const response = await axios.post("https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/AtualizaMensagem",mensagembody_att);
-        const responseAtt = await axios.post('https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizamensagem', mensagembody_att);
-        console.log(responseAtt.message);
+        const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizamensagem", mensagembody_att);
+        console.log(response.message);
     } catch (error) {
         console.log(error);
     }
@@ -208,46 +212,32 @@ client.on("message_ack", (msg, ack) => {
     */
     let text = msg.from;
     from = text.substring(0, 12);
-    msg_att= msg.body
-    var id= _data.id
+    msg_att = msg.body;
+    var id = _data.id;
+
+    console.log("enviada:: msg: " + msg.body);
+    console.log("enviada:: num: " + from);
+    console.log("enviada:: status: " + ack);
+    console.log("id:::::  " + id);
 
     if (ack == 1) {
         // A MENSAGEM É ENVIADA
-        stt_att= "1"
-        console.log("enviada:: msg: " + msg.body);
-        console.log("enviada:: num: " + from);
-        console.log("enviada:: status: " + ack);
-        console.log("id:::::  " + id);
-
+        stt_att = "1";
         console.log("ENVIADA : " + msg.body);
 
         post_att_alpha();
-        
     }
     if (ack == 2) {
         // A MENSAGEM É RECEBIDA
-        stt_att= "2"
-        console.log("enviada:: msg: " + msg.body);
-        console.log("enviada:: num: " + from);
-        console.log("enviada:: status: " + ack);
-        console.log("id:::::  " + id);
-
+        stt_att = "2";
         console.log("RECEBIDA : " + msg.body);
         post_att_alpha();
-
     }
     if (ack == 3) {
         // A MENSAGEM É LIDA
-        stt_att= "3"
-        console.log("enviada:: msg: " + msg.body);
-        console.log("enviada:: num: " + from);
-        console.log("enviada:: status: " + ack);
-        console.log("id:::::  " + id);
-
+        stt_att = "3";
         console.log("LIDA : " + msg.body);
-
         post_att_alpha();
-
     }
 });
 
