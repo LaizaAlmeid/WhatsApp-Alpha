@@ -156,7 +156,8 @@ client.on("message", async (msg) => {
     console.log("MESSAGE RECEIVED", msg);
 
     id_msg = msg.id.id;
-    console.log(id)
+    console.log(id_msg)
+    console.log(msg.id.id)
     //RECEBE AS INFORMACOES DE MENSAGEM DO WPP
     msgRecebida = msg.body;
     //EDITA O NUMERO RECEBIDO
