@@ -85,8 +85,8 @@ app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
     if (!req.body) return res.status(400).end();
 
     client.sendMessage(
-        texto.result.ParaNumero + "@c.us",
-        texto.result.mensagem
+        texto.ParaNumero + "@c.us",
+        texto.mensagem
     );
     console.log('A mensagem: "' + texto.result.mensagem + '" foi enviada');
     //RESPONDE A PROPRIA MENSAGEM
@@ -123,6 +123,7 @@ async function post_att_alpha() {
         //const response = await axios.post("https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/atualizarmsg/initialize",mensagembody_att);
         const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarMsg",mensagembody_att);
         console.log(response.status);
+        // await delay(1000)
         setTimeout(1000);
     } catch (error) {
         console.log(error);
