@@ -120,8 +120,8 @@ var stt_att;
 async function post_att_alpha() {
     try {
         const mensagembody_att = {mensagem_att: msg_att , De_Cliente: from , stts: stt_att , id_msg: id_msg};
-        const response = await axios.post("https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/atualizarmsg/initialize",mensagembody_att);
-        // const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarMsg",mensagembody_att);
+        //const response = await axios.post("https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/atualizarmsg/initialize",mensagembody_att);
+        const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarMsg",mensagembody_att);
         console.log(response.message);
     } catch (error) {
         console.log(error);
