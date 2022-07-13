@@ -26,7 +26,7 @@ const client = new Client({
         ],
     },
 });
-
+var id_msg;
 //VARIAVEL GLOBAL PARA ARMAZENAR AS MENSAGENS RECEBIDAS
 var msgRecebida;
 //CAPTA O NUMERO DO REMETENTE DO 'RECEIVE'
@@ -105,7 +105,7 @@ app.post("/login", LoginController.index);
 //API ALPHA - FUTURA ATUALIZACAO ENVIAR O NOME DO USUARIO WPP
 async function post_env_alpha() {
     try {
-        const mensagembody = { mensagemB: msgRecebida, De_Cliente: from };
+        const mensagembody = { mensagemB: msgRecebida, De_Cliente: from , id_msg: id_msg};
         //const response = await axios.post('https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem/initialize', mensagembody)
         const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem",mensagembody);
         console.log(response.message);
@@ -119,13 +119,9 @@ var stt_att;
 
 async function post_att_alpha() {
     try {
-        const mensagembody_att = {
-            mensagem_att: msg_att,
-            De_Cliente: from,
-            stts: stt_att,
-        };
+        const mensagembody_att = {mensagem_att: msg_att, De_Cliente: from, stts: stt_att};
         //const response = await axios.post("https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/AtualizaMensagem",mensagembody_att);
-        const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizamensagem", mensagembody_att);
+        const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarMsg", mensagembody_att);
         console.log(response.message);
     } catch (error) {
         console.log(error);
@@ -159,6 +155,8 @@ client.on("ready", () => {
 client.on("message", async (msg) => {
     console.log("MESSAGE RECEIVED", msg);
 
+    id_msg = msg.id.id;
+    console.log(id)
     //RECEBE AS INFORMACOES DE MENSAGEM DO WPP
     msgRecebida = msg.body;
     //EDITA O NUMERO RECEBIDO
