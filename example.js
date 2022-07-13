@@ -85,8 +85,8 @@ app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
     if (!req.body) return res.status(400).end();
 
     client.sendMessage(
-        texto.ParaNumero + "@c.us",
-        texto.mensagem
+        texto.result.ParaNumero + "@c.us",
+        texto.result.mensagem
     );
     console.log('A mensagem: "' + texto.result.mensagem + '" foi enviada');
     //RESPONDE A PROPRIA MENSAGEM
