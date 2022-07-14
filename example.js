@@ -129,6 +129,11 @@ async function post_att_alpha() {
         console.log(error);
     }
 }
+//-------------------------------------------------------------
+//MANDAR PARA FATURAS BUBBLE
+
+
+
 //---------------------------------------------------FECHA_API
 
 client.on("qr", (qr) => {
