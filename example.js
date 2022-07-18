@@ -157,8 +157,8 @@ async function post_att_alpha() {
         //const response = await axios.post("https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/atualizarmsg/initialize",mensagembody_att);
         const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarMsg",mensagembody_att);
         console.log(response.status);
-        await delay(1000)
-        //setTimeout(1000);
+        //await delay(1000)
+        
     } catch (error) {
         console.log(error);
     }
@@ -269,13 +269,13 @@ client.on("message_ack", (msg, ack) => {
         // A MENSAGEM É RECEBIDA
         stt_att = "2";
         console.log("RECEBIDA ack: " + msg.body);
-        post_att_alpha();
+        setTimeout( post_att_alpha() , 1000);
     }
     if (ack == 3) {
         // A MENSAGEM É LIDA
         stt_att = "3";
         console.log("LIDA ack: " + msg.body);
-        post_att_alpha();
+        setTimeout( post_att_alpha() , 1000);
     }
 });
 
