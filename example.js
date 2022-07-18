@@ -80,15 +80,25 @@ app.get("/MensagemRecebida", AuthMidleware, (req, res) => {
 });
 app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
     var texto = req.body;
+    var FoneEdit1
+    var FoneEdit2
 
     //CASO NAO EXISTA UM BODY RETORNA ERRO 400
     if (!req.body) return res.status(400).end();
 
+     let Fone = texto.result.ParaNumero;
+     FoneEdit1 = Fone.substring(8, 11);
+     FoneEdit2 = Fone.substring(13, 16);
+
+    // client.sendMessage(
+    //     texto.result.ParaNumero + "@c.us",
+    //     texto.result.mensagem
+    // );
     client.sendMessage(
-        texto.result.ParaNumero + "@c.us",
+        "5585"+ FoneEdit1 + FoneEdit2 + "@c.us",
         texto.result.mensagem
     );
-    console.log('A mensagem: "' + texto.result.mensagem + '" foi enviada');
+    console.log('A mensagem "' + texto.result.mensagem + '" foi enviada para 5585' + FoneEdit1 + FoneEdit2);
     //RESPONDE A PROPRIA MENSAGEM
     return res.status(200).json({
         result: {
