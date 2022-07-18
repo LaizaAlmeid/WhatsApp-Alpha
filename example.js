@@ -136,6 +136,7 @@ async function post_env_alpha() {
         const mensagembody = { mensagemB: msgRecebida, De_Cliente: "(85) 9 "+ FoneEd1 +"-"+ FoneEd2 , id_msg: id_msg};
         //const response = await axios.post('https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem/initialize', mensagembody)
         const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem",mensagembody);
+        //STATUS 200
         console.log(response.status);
     } catch (error) {
         console.log(error);
@@ -156,8 +157,8 @@ async function post_att_alpha() {
         //const response = await axios.post("https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/atualizarmsg/initialize",mensagembody_att);
         const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarMsg",mensagembody_att);
         console.log(response.status);
-        // await delay(1000)
-        setTimeout(1000);
+        await delay(1000)
+        //setTimeout(1000);
     } catch (error) {
         console.log(error);
     }
