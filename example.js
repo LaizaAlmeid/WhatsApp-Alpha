@@ -87,8 +87,8 @@ app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
     if (!req.body) return res.status(400).end();
 
      let Fone = texto.result.ParaNumero;
-     FoneEdit1 = Fone.substring(8, 11);
-     FoneEdit2 = Fone.substring(13, 16);
+     FoneEdit1 = Fone.substring(7, 11);
+     FoneEdit2 = Fone.substring(12, 16);
 
     // client.sendMessage(
     //     texto.result.ParaNumero + "@c.us",
