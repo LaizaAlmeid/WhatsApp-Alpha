@@ -127,7 +127,13 @@ app.post("/login", LoginController.index);
 //API ALPHA - FUTURA ATUALIZACAO ENVIAR O NOME DO USUARIO WPP
 async function post_env_alpha() {
     try {
-        const mensagembody = { mensagemB: msgRecebida, De_Cliente: from , id_msg: id_msg};
+        var FoneEd1
+        var FoneEd2
+        let Fone = from;
+        FoneEd1 = Fone.substring(4, 8);
+        FoneEd2 = Fone.substring(8, 12);
+
+        const mensagembody = { mensagemB: msgRecebida, De_Cliente: "(85) 9 "+ FoneEd1 + FoneEd2 , id_msg: id_msg};
         //const response = await axios.post('https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem/initialize', mensagembody)
         const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem",mensagembody);
         console.log(response.status);
