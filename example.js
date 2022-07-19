@@ -207,13 +207,13 @@ client.on("message", async (msg) => {
     //CHAMA O ENDPOINT(API WORKFLOW) DO ALPHA
     post_env_alpha();
 
-    if (msg.body === "ola") {
-        // Send a new message as a reply to the current one
-        post_env_alpha();
+    // if (msg.body === "ola") {
+    //     // Send a new message as a reply to the current one
+    //     post_env_alpha();
 
-        //responde com
-        msg.reply("Olá! Mensagem recebida");
-    }
+    //     //responde com
+    //     msg.reply("Olá! Mensagem recebida");
+    // }
 });
 
 //cliente on message_ack
