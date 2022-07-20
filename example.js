@@ -107,7 +107,7 @@ app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
     let length = texto.result.ParaNumero.length;
     const base64Image= texto.result.img 
     
-    if(length == 16 && base64Image == null){
+    if(length == 16 && base64Image == ""){
         let Fone = texto.result.ParaNumero;
         FoneEdit1 = Fone.substring(7, 11);
         FoneEdit2 = Fone.substring(12, 16);
