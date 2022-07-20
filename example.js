@@ -9,29 +9,31 @@ var ok = 0;
 const ejs = require("ejs");
 const path = require("path");
 
-const client = new Client({
-    authStrategy: new LocalAuth(),
-    //puppeteer: { headless: false }
-    puppeteer: {
-        headless: true,
-        args: [
-            "--no-sandbox",
-            "--disable-setuid-sandbox",
-            "--disable-dev-shm-usage",
-            "--disable-accelerated-2d-canvas",
-            "--no-first-run",
-            "--no-zygote",
-            "--single-process", // <- this one doesn't works in Windows
-            "--disable-gpu",
-        ],
-    },
-});
+//NAVEGADOR
+
+// const client = new Client({
+//     authStrategy: new LocalAuth(),
+//     //puppeteer: { headless: false }
+//     puppeteer: {
+//         headless: true,
+//         args: [
+//             "--no-sandbox",
+//             "--disable-setuid-sandbox",
+//             "--disable-dev-shm-usage",
+//             "--disable-accelerated-2d-canvas",
+//             "--no-first-run",
+//             "--no-zygote",
+//             "--single-process", // <- this one doesn't works in Windows
+//             "--disable-gpu",
+//         ],
+//     },
+// });
 
 //O código abaixo ativa o sistema de multi-sessoes entretanto devem ser criadas funcoes para os dois; ao inves de apenas por ex: client.on
 
-// const client1 = new Client({
-//     authStrategy: new LocalAuth({ clientId: "client-one" })
-// });
+const client = new Client({
+    authStrategy: new LocalAuth({ clientId: "client-one" })
+});
 
 // const client2 = new Client({
 //     authStrategy: new LocalAuth({ clientId: "client-two" })
@@ -91,6 +93,9 @@ app.get("/ver", (req, res, next) => {
 app.get("/MensagemRecebida", AuthMidleware, (req, res) => {
     return res.json(msgRecebida);
 });
+
+//const media = MessageMedia.fromFilePath('./app/img/nopicture.png');
+
 app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
     var texto = req.body;
     var FoneEdit1
@@ -105,10 +110,14 @@ app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
         FoneEdit1 = Fone.substring(7, 11);
         FoneEdit2 = Fone.substring(12, 16);
         
+        const base64Image= texto.result.img      
+        const media = new MessageMedia('image/png', base64Image);
+
         client.sendMessage(
             "5585"+ FoneEdit1 + FoneEdit2 + "@c.us",
-            texto.result.mensagem
-        );
+            media
+        ); 
+        
     }else{
         return res.status(200).json({
             result: {
