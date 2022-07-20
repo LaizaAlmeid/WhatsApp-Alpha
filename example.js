@@ -130,7 +130,7 @@ app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
             media,{caption: texto.result.mensagem}
         ); 
         
-    }else{
+    }if(length != 16){
         return res.status(200).json({
             result: {
                 mensag: "null",
@@ -150,6 +150,7 @@ app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
         result: {
             mensag: texto.result.mensagem,
             para: texto.result.ParaNumero,
+            img: texto.result.img
         },
     });
     //return res.json(texto.result.mensagem)
