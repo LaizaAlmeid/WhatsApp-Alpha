@@ -105,17 +105,29 @@ app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
     if (!req.body) return res.status(400).end();
     
     let length = texto.result.ParaNumero.length;
-    if(length==16){
+    const base64Image= texto.result.img 
+    
+    if(length == 16 && base64Image == null){
+        let Fone = texto.result.ParaNumero;
+        FoneEdit1 = Fone.substring(7, 11);
+        FoneEdit2 = Fone.substring(12, 16);
+
+        client.sendMessage(
+            "5585"+ FoneEdit1 + FoneEdit2 + "@c.us",
+            texto.result.mensagem
+        ); 
+        
+    }if(length == 16 && base64Image != null){
         let Fone = texto.result.ParaNumero;
         FoneEdit1 = Fone.substring(7, 11);
         FoneEdit2 = Fone.substring(12, 16);
         
-        const base64Image= texto.result.img      
+             
         const media = new MessageMedia('image/png', base64Image);
 
         client.sendMessage(
             "5585"+ FoneEdit1 + FoneEdit2 + "@c.us",
-            media
+            media,{caption: texto.result.mensagem}
         ); 
         
     }else{
