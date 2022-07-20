@@ -105,7 +105,7 @@ app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
         FoneEdit1 = Fone.substring(7, 11);
         FoneEdit2 = Fone.substring(12, 16);
         
-        const media = await MessageMedia.fromUrl('https://via.placeholder.com/350x150.png');
+        const media = MessageMedia.fromUrl('https://via.placeholder.com/350x150.png');
         client.sendMessage(media);
         
         client.sendMessage(
