@@ -11,29 +11,29 @@ const path = require("path");
 
 //NAVEGADOR
 
-// const client = new Client({
-//     authStrategy: new LocalAuth(),
-//     //puppeteer: { headless: false }
-//     puppeteer: {
-//         headless: true,
-//         args: [
-//             "--no-sandbox",
-//             "--disable-setuid-sandbox",
-//             "--disable-dev-shm-usage",
-//             "--disable-accelerated-2d-canvas",
-//             "--no-first-run",
-//             "--no-zygote",
-//             "--single-process", // <- this one doesn't works in Windows
-//             "--disable-gpu",
-//         ],
-//     },
-// });
+const client = new Client({
+    authStrategy: new LocalAuth(),
+    //puppeteer: { headless: false }
+    puppeteer: {
+        headless: true,
+        args: [
+            "--no-sandbox",
+            "--disable-setuid-sandbox",
+            "--disable-dev-shm-usage",
+            "--disable-accelerated-2d-canvas",
+            "--no-first-run",
+            "--no-zygote",
+            "--single-process", // <- this one doesn't works in Windows
+            "--disable-gpu",
+        ],
+    },
+});
 
 //O código abaixo ativa o sistema de multi-sessoes entretanto devem ser criadas funcoes para os dois; ao inves de apenas por ex: client.on
 
-const client = new Client({
-    authStrategy: new LocalAuth({ clientId: "client-one" })
-});
+// const client = new Client({
+//     authStrategy: new LocalAuth({ clientId: "client-one" })
+// });
 
 // const client2 = new Client({
 //     authStrategy: new LocalAuth({ clientId: "client-two" })
