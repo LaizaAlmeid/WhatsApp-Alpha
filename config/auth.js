@@ -4,7 +4,7 @@ module.exports = {
     expireIn: "7d"
   }
 
-  /**
+  /*
    * 
    * Secret : api-sistema-alpha convertida para SHA256
    * ExpireIn 7d : token renova em 7 dias

@@ -1,4 +1,4 @@
-const { Client, Location, List, Buttons, LocalAuth } = require("./index");
+const { Client, Location, List, Buttons, MessageMedia , LocalAuth } = require("./index");
 
 var QRCode = require("qrcode");
 
@@ -26,6 +26,19 @@ const client = new Client({
         ],
     },
 });
+
+//O código abaixo ativa o sistema de multi-sessoes entretanto devem ser criadas funcoes para os dois; ao inves de apenas por ex: client.on
+
+// const client1 = new Client({
+//     authStrategy: new LocalAuth({ clientId: "client-one" })
+// });
+
+// const client2 = new Client({
+//     authStrategy: new LocalAuth({ clientId: "client-two" })
+// });
+
+
+
 var id_msg;
 //VARIAVEL GLOBAL PARA ARMAZENAR AS MENSAGENS RECEBIDAS
 var msgRecebida;
@@ -91,6 +104,9 @@ app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
         let Fone = texto.result.ParaNumero;
         FoneEdit1 = Fone.substring(7, 11);
         FoneEdit2 = Fone.substring(12, 16);
+        
+        const media = await MessageMedia.fromUrl('https://via.placeholder.com/350x150.png');
+        client.sendMessage(media);
         
         client.sendMessage(
             "5585"+ FoneEdit1 + FoneEdit2 + "@c.us",
