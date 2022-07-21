@@ -1,4 +1,11 @@
-const { Client, Location, List, Buttons, MessageMedia , LocalAuth } = require("./index");
+const {
+    Client,
+    Location,
+    List,
+    Buttons,
+    MessageMedia,
+    LocalAuth,
+} = require("./index");
 
 var QRCode = require("qrcode");
 
@@ -32,14 +39,12 @@ const client = new Client({
 //O código abaixo ativa o sistema de multi-sessoes entretanto devem ser criadas funcoes para os dois; ao inves de apenas por ex: client.on
 
 // const client = new Client({
-//     authStrategy: new LocalAuth({ clientId: "client-one" })
+//     authStrategy: new LocalAuth({ clientId: "client-one" }),
 // });
 
 // const client2 = new Client({
-//     authStrategy: new LocalAuth({ clientId: "client-two" })
+//     authStrategy: new LocalAuth({ clientId: "client-two" }),
 // });
-
-
 
 var id_msg;
 //VARIAVEL GLOBAL PARA ARMAZENAR AS MENSAGENS RECEBIDAS
@@ -98,39 +103,55 @@ app.get("/MensagemRecebida", AuthMidleware, (req, res) => {
 
 app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
     var texto = req.body;
-    var FoneEdit1
-    var FoneEdit2
+    var FoneEdit1;
+    var FoneEdit2;
 
     //CASO NAO EXISTA UM BODY RETORNA ERRO 400
     if (!req.body) return res.status(400).end();
-    
+
     let length = texto.result.ParaNumero.length;
-    const base64Image= texto.result.img 
-    
-    if(length == 16 && base64Image.length <= 0){
+    const base64Image = texto.result.img;
+    const base64Pdf = texto.result.pdf;
+
+//VERIFICA A VALIDADE DO NUMERO E FORMATA
+    if (length == 16) {
         let Fone = texto.result.ParaNumero;
         FoneEdit1 = Fone.substring(7, 11);
         FoneEdit2 = Fone.substring(12, 16);
 
-        client.sendMessage(
-            "5585"+ FoneEdit1 + FoneEdit2 + "@c.us",
-            texto.result.mensagem
-        ); 
-        
-    }if(length == 16 && base64Image.length > 0 ){
-        let Fone = texto.result.ParaNumero;
-        FoneEdit1 = Fone.substring(7, 11);
-        FoneEdit2 = Fone.substring(12, 16);
-        
-             
-        const media = new MessageMedia('image/png', base64Image);
+//MENSAGEM SIMPLES
+        if (base64Image.length <= 0) {
+            client.sendMessage(
+                "5585" + FoneEdit1 + FoneEdit2 + "@c.us",
+                texto.result.mensagem
+            );
+        }
+//MENSAGEM & IMAGEM
+        if (base64Image.length > 0) {
+            var receivedImg
+            const mediaImg = new MessageMedia("image/png", base64Image);
 
-        client.sendMessage(
-            "5585"+ FoneEdit1 + FoneEdit2 + "@c.us",
-            media,{caption: texto.result.mensagem}
-        ); 
-        
-    }if(length != 16){
+            client.sendMessage(
+                "5585" + FoneEdit1 + FoneEdit2 + "@c.us",
+                mediaImg,
+                { caption: texto.result.mensagem }
+            );
+            receivedImg = 1
+        }
+//MENSAGEM PDF
+        if (base64Pdf.length > 0) {
+            var receivedPdf 
+            const mediaPdf = new MessageMedia("application/pdf", base64Pdf);
+
+            client.sendMessage(
+                "5585" + FoneEdit1 + FoneEdit2 + "@c.us",
+                mediaPdf
+            );
+            receivedPdf = 1
+        }
+    }
+    //NUMERO INVÁLIDO
+    if (length != 16) {
         return res.status(200).json({
             result: {
                 mensag: "null",
@@ -144,13 +165,14 @@ app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
     //     texto.result.mensagem
     // );
 
-    console.log('A mensagem "' + texto.result.mensagem + '" foi enviada para 5585' + FoneEdit1 + FoneEdit2);
+    console.log('A mensagem "' + texto.result.mensagem + '" foi enviada para 5585' + FoneEdit1 + FoneEdit2 );
     //RESPONDE A PROPRIA MENSAGEM
     return res.status(200).json({
         result: {
-            mensag: texto.result.mensagem,
+            mensagem: texto.result.mensagem,
             para: texto.result.ParaNumero,
-            img: texto.result.img
+            img: receivedImg,
+            pdf: receivedPdf,
         },
     });
     //return res.json(texto.result.mensagem)
@@ -162,15 +184,22 @@ app.post("/login", LoginController.index);
 //API ALPHA - FUTURA ATUALIZACAO ENVIAR O NOME DO USUARIO WPP
 async function post_env_alpha() {
     try {
-        var FoneEd1
-        var FoneEd2
+        var FoneEd1;
+        var FoneEd2;
         let Fone = from;
         FoneEd1 = Fone.substring(4, 8);
         FoneEd2 = Fone.substring(8, 12);
 
-        const mensagembody = { mensagemB: msgRecebida, De_Cliente: "(85) 9 "+ FoneEd1 +"-"+ FoneEd2 , id_msg: id_msg};
+        const mensagembody = {
+            mensagemB: msgRecebida,
+            De_Cliente: "(85) 9 " + FoneEd1 + "-" + FoneEd2,
+            id_msg: id_msg,
+        };
         //const response = await axios.post('https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem/initialize', mensagembody)
-        const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem",mensagembody);
+        const response = await axios.post(
+            "https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem",
+            mensagembody
+        );
         //STATUS 200
         console.log(response.status);
     } catch (error) {
@@ -183,25 +212,30 @@ var stt_att;
 
 async function post_att_alpha() {
     try {
-        var FoneEd1
-        var FoneEd2
+        var FoneEd1;
+        var FoneEd2;
         let Fone = from;
         FoneEd1 = Fone.substring(4, 8);
         FoneEd2 = Fone.substring(8, 12);
-        const mensagembody_att = {mensagem_att: msg_att , De_Cliente: "(85) 9 "+ FoneEd1 +"-"+ FoneEd2 , stts: stt_att , id_msg: id_msg};
+        const mensagembody_att = {
+            mensagem_att: msg_att,
+            De_Cliente: "(85) 9 " + FoneEd1 + "-" + FoneEd2,
+            stts: stt_att,
+            id_msg: id_msg,
+        };
         //const response = await axios.post("https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/atualizarmsg/initialize",mensagembody_att);
-        const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarMsg",mensagembody_att);
+        const response = await axios.post(
+            "https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarMsg",
+            mensagembody_att
+        );
         console.log(response.status);
         //await delay(1000)
-        
     } catch (error) {
         console.log(error);
     }
 }
 //-------------------------------------------------------------
 //MANDAR PARA FATURAS BUBBLE
-
-
 
 //---------------------------------------------------FECHA_API
 
@@ -232,7 +266,7 @@ client.on("message", async (msg) => {
     console.log("MESSAGE RECEIVED", msg);
 
     id_msg = msg.id.id;
-    console.log(msg.id.id)
+    console.log(msg.id.id);
     //RECEBE AS INFORMACOES DE MENSAGEM DO WPP
     msgRecebida = msg.body;
     //EDITA O NUMERO RECEBIDO
@@ -304,13 +338,13 @@ client.on("message_ack", (msg, ack) => {
         // A MENSAGEM É RECEBIDA
         stt_att = "2";
         console.log("RECEBIDA ack: " + msg.body);
-        setTimeout( post_att_alpha() , 1000);
+        setTimeout(post_att_alpha(), 1000);
     }
     if (ack == 3) {
         // A MENSAGEM É LIDA
         stt_att = "3";
         console.log("LIDA ack: " + msg.body);
-        setTimeout( post_att_alpha() , 1000);
+        setTimeout(post_att_alpha(), 1000);
     }
 });
 
