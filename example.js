@@ -120,7 +120,7 @@ app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
         FoneEdit2 = Fone.substring(12, 16);
 
 //MENSAGEM SIMPLES
-        if (base64Image.length <= 0) {
+        if (base64Image.length <= 0 && base64Pdf.length <= 0) {
             client.sendMessage(
                 "5585" + FoneEdit1 + FoneEdit2 + "@c.us",
                 texto.result.mensagem
