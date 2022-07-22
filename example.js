@@ -189,7 +189,7 @@ async function post_env_alpha() {
             mensagemB: msgRecebida,
             De_Cliente: "(85) 9 " + FoneEd1 + "-" + FoneEd2,
             id_msg: id_msg,
-            doc: media_recebida
+            doc: media_recebida,
         };
         //const response = await axios.post('https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem/initialize', mensagembody)
         const response = await axios.post(
@@ -197,6 +197,7 @@ async function post_env_alpha() {
             mensagembody
         );
         //STATUS 200
+        console.log("base64"+ media_recebida)
         console.log(response.status);
     } catch (error) {
         console.log(error);
