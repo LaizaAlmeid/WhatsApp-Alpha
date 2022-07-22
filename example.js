@@ -45,7 +45,8 @@ var msgRecebida;
 //CAPTA O NUMERO DO REMETENTE DO 'RECEIVE'
 var from;
 //STATUS 1-ENVIADA/2-RECEBIDA/3-LIDA
-var media_recebida
+var media_recebida_img
+var media_recebida_pdf
 
 
 client.initialize();
@@ -189,8 +190,8 @@ async function post_env_alpha() {
             mensagemB: msgRecebida,
             De_Cliente: "(85) 9 " + FoneEd1 + "-" + FoneEd2,
             id_msg: id_msg,
-            img: media_recebida,
-            
+            img: media_recebida_img,
+            pdf: media_recebida_pdf,          
         };
         //const response = await axios.post('https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem/initialize', mensagembody)
         const response = await axios.post(
@@ -198,7 +199,6 @@ async function post_env_alpha() {
             mensagembody
         );
         //STATUS 200
-        console.log("base64"+ media_recebida)
         console.log(response.status);
     } catch (error) {
         console.log(error);
@@ -273,8 +273,12 @@ client.on("message", async (msg) => {
     
     if(msg.hasMedia) {
         const media = await msg.downloadMedia();
-        media_recebida= media.data
-    }
+        if(msg.type=='image'){
+        media_recebida_img= media.data
+        }if(msg.type=='document'){
+        media_recebida_pdf= media.data
+        }
+}
     //CHAMA O ENDPOINT(API WORKFLOW) DO ALPHA
     post_env_alpha();
 
