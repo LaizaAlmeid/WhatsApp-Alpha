@@ -274,9 +274,11 @@ client.on("message", async (msg) => {
     if(msg.hasMedia) {
         const media = await msg.downloadMedia();
         if(msg.type=='image'){
-        media_recebida_img= media.data
+        media_recebida_pdf='0';
+        media_recebida_img= media.data;
         }if(msg.type=='document'){
-        media_recebida_pdf= media.data
+        media_recebida_img='0';
+        media_recebida_pdf= media.data;
         }
 }
     //CHAMA O ENDPOINT(API WORKFLOW) DO ALPHA
