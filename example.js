@@ -237,7 +237,7 @@ async function post_att_alpha() {
 async function post_qr_alpha() {
     try {
               
-        const mensagembody_att = {
+        const mensagembody_qr = {
             qrcode: code_qr,
             ready: readyAlpha,
            
@@ -245,8 +245,9 @@ async function post_qr_alpha() {
         //const response = await axios.post("https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/atualizarmsg/initialize",mensagembody_att);
         const response = await axios.post(
             "https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarQR",
-            mensagembody_att
+            mensagembody_qr
         );
+        console.log(code_qr);
         console.log(response.status);
         //await delay(1000)
     } catch (error) {
