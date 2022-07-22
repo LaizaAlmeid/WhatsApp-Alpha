@@ -1,11 +1,4 @@
-const {
-    Client,
-    Location,
-    List,
-    Buttons,
-    MessageMedia,
-    LocalAuth,
-} = require("./index");
+const { Client,Location,List,Buttons, MessageMedia,LocalAuth,} = require("./index");
 
 var QRCode = require("qrcode");
 
@@ -52,6 +45,8 @@ var msgRecebida;
 //CAPTA O NUMERO DO REMETENTE DO 'RECEIVE'
 var from;
 //STATUS 1-ENVIADA/2-RECEBIDA/3-LIDA
+var media_recebida
+
 
 client.initialize();
 
@@ -194,6 +189,7 @@ async function post_env_alpha() {
             mensagemB: msgRecebida,
             De_Cliente: "(85) 9 " + FoneEd1 + "-" + FoneEd2,
             id_msg: id_msg,
+            doc: media_recebida
         };
         //const response = await axios.post('https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem/initialize', mensagembody)
         const response = await axios.post(
@@ -272,6 +268,12 @@ client.on("message", async (msg) => {
     //EDITA O NUMERO RECEBIDO
     let text = msg.from;
     from = text.substring(0, 12);
+
+    if(msg.type=="image") {
+        const media = msg.body;
+        media_recebida= media
+        // do something with the media data here
+    }
 
     //CHAMA O ENDPOINT(API WORKFLOW) DO ALPHA
     post_env_alpha();
