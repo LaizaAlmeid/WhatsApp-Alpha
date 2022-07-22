@@ -270,9 +270,8 @@ client.on("message", async (msg) => {
     let text = msg.from;
     from = text.substring(0, 12);
 
-    if(msg.type=="image") {
-        const media = msg.body;
-        media_recebida= media
+    if(msg.type =='image') {
+        media_recebida= msg.body
         // do something with the media data here
     }
 
