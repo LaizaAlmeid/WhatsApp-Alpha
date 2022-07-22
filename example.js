@@ -271,6 +271,9 @@ client.on("message", async (msg) => {
     let text = msg.from;
     from = text.substring(0, 12);
     
+    media_recebida_img='0';
+    media_recebida_pdf='0';
+
     if(msg.hasMedia) {
         const media = await msg.downloadMedia();
         if(msg.type=='image'){
