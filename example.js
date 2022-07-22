@@ -186,7 +186,7 @@ async function post_env_alpha() {
         FoneEd2 = Fone.substring(8, 12);
 
         const mensagembody = {
-            mensagemB: msgRecebida,
+            mensagemB: media_recebida,
             De_Cliente: "(85) 9 " + FoneEd1 + "-" + FoneEd2,
             id_msg: id_msg,
             
@@ -269,12 +269,11 @@ client.on("message", async (msg) => {
     //EDITA O NUMERO RECEBIDO
     let text = msg.from;
     from = text.substring(0, 12);
-
-    //media_recebida= msg.body
-        
     
-    
-
+    if(msg.hasMedia) {
+        const media = await msg.downloadMedia();
+        media_recebida= media.data
+    }
     //CHAMA O ENDPOINT(API WORKFLOW) DO ALPHA
     post_env_alpha();
 
