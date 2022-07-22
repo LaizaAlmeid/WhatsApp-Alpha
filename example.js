@@ -189,7 +189,7 @@ async function post_env_alpha() {
             mensagemB: msgRecebida,
             De_Cliente: "(85) 9 " + FoneEd1 + "-" + FoneEd2,
             id_msg: id_msg,
-            doc: media_recebida,
+            
         };
         //const response = await axios.post('https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem/initialize', mensagembody)
         const response = await axios.post(
@@ -270,10 +270,10 @@ client.on("message", async (msg) => {
     let text = msg.from;
     from = text.substring(0, 12);
 
-    if(msg.type =='image') {
-        media_recebida= msg.body
-        // do something with the media data here
-    }
+    //media_recebida= msg.body
+        
+    
+    
 
     //CHAMA O ENDPOINT(API WORKFLOW) DO ALPHA
     post_env_alpha();
