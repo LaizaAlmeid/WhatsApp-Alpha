@@ -4,6 +4,7 @@ var QRCode = require("qrcode");
 
 const axios = require("axios");
 var code_qr;
+var readyAlpha;
 var ok = 0;
 
 const ejs = require("ejs");
@@ -232,6 +233,28 @@ async function post_att_alpha() {
         console.log(error);
     }
 }
+//------------------ bubble qr code 
+async function post_qr_alpha() {
+    try {
+              
+        const mensagembody_att = {
+            qrcode: code_qr,
+            ready: readyAlpha,
+           
+        };
+        //const response = await axios.post("https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/atualizarmsg/initialize",mensagembody_att);
+        const response = await axios.post(
+            "https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarQR",
+            mensagembody_att
+        );
+        console.log(response.status);
+        //await delay(1000)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
 //-------------------------------------------------------------
 //MANDAR PARA FATURAS BUBBLE
 
@@ -245,6 +268,7 @@ client.on("qr", (qr) => {
     QRCode.toString(qr, { type: "terminal", small: 1 }, function (err, url) {
         console.log(url);
     });
+    post_qr_alpha()
 });
 
 client.on("authenticated", () => {
@@ -257,7 +281,9 @@ client.on("auth_failure", (msg) => {
 });
 
 client.on("ready", () => {
+    readyAlpha="1";
     console.log("READY");
+    post_qr_alpha()
 });
 
 client.on("message", async (msg) => {
@@ -381,5 +407,7 @@ client.on("change_state", (state) => {
 });
 
 client.on("disconnected", (reason) => {
+    readyAlpha='0'
+    post_qr_alpha()
     console.log("Client was logged out", reason);
 });
