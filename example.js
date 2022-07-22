@@ -238,9 +238,7 @@ async function post_qr_alpha() {
     try {
               
         const mensagembody_qr = {
-            qrcode: code_qr,
-            ready: readyAlpha,
-           
+            qrcode: code_qr,           
         };
         //const response = await axios.post("https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/atualizarmsg/initialize",mensagembody_att);
         const response = await axios.post(
@@ -266,10 +264,10 @@ client.on("qr", (qr) => {
     console.log("QR RECEIVED", qr);
     code_qr = qr;
     ok = 1;
+    post_qr_alpha()
     QRCode.toString(qr, { type: "terminal", small: 1 }, function (err, url) {
         console.log(url);
     });
-    post_qr_alpha()
 });
 
 client.on("authenticated", () => {
