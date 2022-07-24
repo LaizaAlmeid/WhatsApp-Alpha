@@ -10,6 +10,13 @@ var ok = 0;
 const ejs = require("ejs");
 const path = require("path");
 
+//NAO DEIXA O HEROKU DORMIR
+var http = require("http");
+setInterval(function() {
+    http.get("https://wpp-alpha-sistema.herokuapp.com/");
+}, 300000); // every 5 minutes (300000)
+
+
 //NAVEGADOR
 
 const client = new Client({
