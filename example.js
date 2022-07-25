@@ -4,14 +4,11 @@ var QRCode = require("qrcode");
 
 const axios = require("axios");
 var code_qr;
-var readyAlpha="0";
+var readyAlpha="N";
 var ok = 0;
 
 const ejs = require("ejs");
 const path = require("path");
-
-
-
 
 //NAVEGADOR
 
@@ -200,13 +197,9 @@ async function post_env_alpha() {
             img: media_recebida_img,
             pdf: media_recebida_pdf,          
         };
-        //const response = await axios.post('https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem/initialize', mensagembody)
-        const response = await axios.post(
-            "https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem",
-            mensagembody
-        );
+        const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem", mensagembody);
         //STATUS 200
-        console.log(response.status);
+        console.log("Mensagem enviada -> Bubble.io //  Response Status: " + response.status);
     } catch (error) {
         console.log(error);
     }
@@ -222,18 +215,14 @@ async function post_att_alpha() {
         let Fone = from;
         FoneEd1 = Fone.substring(4, 8);
         FoneEd2 = Fone.substring(8, 12);
-        const mensagembody_att = {
+        const body_att = {
             mensagem_att: msg_att,
             De_Cliente: "(85) 9 " + FoneEd1 + "-" + FoneEd2,
             stts: stt_att,
             id_msg: id_msg,
         };
-        //const response = await axios.post("https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/atualizarmsg/initialize",mensagembody_att);
-        const response = await axios.post(
-            "https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarMsg",
-            mensagembody_att
-        );
-        console.log(response.status);
+        const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarMsg", body_att);
+        console.log("Mensagem atualizada // Response Status: "+response.status);
     } catch (error) {
         console.log(error);
     }
@@ -241,17 +230,15 @@ async function post_att_alpha() {
 //------------------ bubble qr code 
 async function post_qr_alpha() {
     try { 
-        const mensagembody_qr = {
+        const body_qr = {
             qrcode: code_qr,
             logado: readyAlpha           
         };
         const response = await axios.post(
             "https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarQR",
-            mensagembody_qr
+            body_qr
         );
-        console.log("QR code enviado -> Bubble.io");
-        console.log(response.status);
-
+        console.log("QR code enviado -> Bubble.io // Response Status: " + response.status);
     } catch (error) {
         console.log(error);
     }
@@ -299,14 +286,16 @@ client.on("auth_failure", (msg) => {
     console.error("AUTHENTICATION FAILURE", msg);
 });
 
+//LIBERADO PRA ENVIO E RECEBIMENTO DE MENSAGENS
 client.on("ready", () => {
-    readyAlpha="1";
-    console.log("READY");
+    console.log("---------------READY---------------" );
+    readyAlpha="Y";
+    console.log("SERVIÇO INICIADO!");
     post_qr_alpha()
 });
 
 client.on("message", async (msg) => {
-    console.log("MESSAGE RECEIVED", msg);
+    console.log("MENSAGEM RECEBIDA: ", msg);
 
     id_msg = msg.id.id;
     console.log(msg.id.id);
@@ -379,27 +368,24 @@ client.on("message_ack", (msg, ack) => {
     msg_att = msg.body;
     id_msg = msg.id.id;
 
-    console.log("enviada:: msg: " + msg.body);
-    console.log("enviada:: num: " + from);
-    console.log("enviada:: status: " + ack);
-    console.log("id:::::  " + msg.id.id);
+    console.log("---------------ACK---------------" );
 
     if (ack == 1) {
         // A MENSAGEM É ENVIADA
         stt_att = "1";
-        console.log("ENVIADA ack: " + msg.body);
+        console.log("Mensagem " + msg.id.id + " Enviada ack: " + msg.body);
         //post_att_alpha();
     }
     if (ack == 2) {
         // A MENSAGEM É RECEBIDA
         stt_att = "2";
-        console.log("RECEBIDA ack: " + msg.body);
+        console.log("Mensagem " + msg.id.id + "Recebida ack: " + msg.body);
         setTimeout(post_att_alpha(), 1000);
     }
     if (ack == 3) {
         // A MENSAGEM É LIDA
         stt_att = "3";
-        console.log("LIDA ack: " + msg.body);
+        console.log("Mensagem " + msg.id.id + " LIDA ack: " + msg.body);
         setTimeout(post_att_alpha(), 1000);
     }
 });
@@ -426,7 +412,7 @@ client.on("change_state", (state) => {
 });
 
 client.on("disconnected", (reason) => {
-    readyAlpha='0'
+    readyAlpha='N'
     post_qr_alpha()
     console.log("Client was logged out", reason);
 });
