@@ -59,6 +59,9 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+//Ping
+const PingController = require("./app/Controllers/PingController");
+
 //autenticacao
 const LoginController = require("./app/Controllers/LoginController");
 const AuthMidleware = require("./app/Midlewares/AuthMidleware");
@@ -98,8 +101,6 @@ app.get("/ver", (req, res, next) => {
 app.get("/MensagemRecebida", AuthMidleware, (req, res) => {
     return res.json(msgRecebida);
 });
-
-//const media = MessageMedia.fromFilePath('./app/img/nopicture.png');
 
 app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
     var texto = req.body;
@@ -180,6 +181,8 @@ app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
 
 app.post("/login", LoginController.index);
 
+app.post("/no_sleep", PingController.index);
+
 //---------------------------------------------------FECHA_ROTAS
 //API ALPHA - FUTURA ATUALIZACAO ENVIAR O NOME DO USUARIO WPP
 async function post_env_alpha() {
@@ -231,7 +234,6 @@ async function post_att_alpha() {
             mensagembody_att
         );
         console.log(response.status);
-        //await delay(1000)
     } catch (error) {
         console.log(error);
     }
@@ -252,6 +254,22 @@ async function post_qr_alpha() {
         console.log(code_qr);
         console.log(response.status);
         //await delay(1000)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function ping() {
+    try {
+        const resposta = {
+            status: "ativo",      
+        };
+        const response = await axios.post(
+            "https://wpp-alpha-sistema.herokuapp.com/no_sleep",
+            resposta
+        );
+        console.log(response.status);
+
     } catch (error) {
         console.log(error);
     }
