@@ -240,24 +240,24 @@ async function post_att_alpha() {
 }
 //------------------ bubble qr code 
 async function post_qr_alpha() {
-    try {
-              
+    try { 
         const mensagembody_qr = {
             qrcode: code_qr,
             logado: readyAlpha           
         };
-        //const response = await axios.post("https://sistema-alpha.bubbleapps.io/version-test/api/1.1/wf/atualizarmsg/initialize",mensagembody_att);
         const response = await axios.post(
             "https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarQR",
             mensagembody_qr
         );
-        console.log(code_qr);
+        console.log("QR code enviado -> Bubble.io");
         console.log(response.status);
-        //await delay(1000)
+
     } catch (error) {
         console.log(error);
     }
 }
+
+//NAO DEIXA O HEROKU DORMIR
 setInterval(async function ping() {
     try {
         const resposta = {
@@ -273,8 +273,6 @@ setInterval(async function ping() {
         console.log(error);
     }
 }, 1800000); // every 5 minutes (300000)
-
-
 
 //-------------------------------------------------------------
 //MANDAR PARA FATURAS BUBBLE
