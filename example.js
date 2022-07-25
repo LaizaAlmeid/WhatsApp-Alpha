@@ -272,7 +272,7 @@ setInterval(async function ping() {
     } catch (error) {
         console.log(error);
     }
-}, 1000); // every 5 minutes (300000)
+}, 1800000); // every 5 minutes (300000)
 
 
 
