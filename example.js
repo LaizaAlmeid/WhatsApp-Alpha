@@ -271,10 +271,10 @@ client.on("qr", (qr) => {
     console.log("QR RECEIVED", qr);
     code_qr = qr;
     ok = 1;
-    post_qr_alpha()
     QRCode.toString(qr, { type: "terminal", small: 1 }, function (err, url) {
         console.log(url);
     });
+    post_qr_alpha()
 });
 
 client.on("authenticated", () => {
