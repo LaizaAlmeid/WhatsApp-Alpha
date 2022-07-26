@@ -415,5 +415,5 @@ client.on("disconnected", (reason) => {
     readyAlpha='N'
     post_qr_alpha()
     console.log("Client was logged out", reason);
-    client()
+    client.initialize();
 });
