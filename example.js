@@ -112,7 +112,7 @@ app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
     let length = texto.result.ParaNumero.length;
     const base64Image = texto.result.img;
     const base64Pdf = texto.result.pdf;
-
+    
 //VERIFICA A VALIDADE DO NUMERO E FORMATA
     if (length == 16) {
         let Fone = texto.result.ParaNumero;
@@ -141,7 +141,7 @@ app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
 //MENSAGEM PDF
         if (base64Pdf.length > 0) {
             var receivedPdf 
-            const mediaPdf = new MessageMedia("application/pdf", base64Pdf);
+            const mediaPdf = new MessageMedia("application/pdf", base64Pdf, texto.result.filename);
 
             client.sendMessage(
                 "5585" + FoneEdit1 + FoneEdit2 + "@c.us",
