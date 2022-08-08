@@ -84,7 +84,8 @@ class ViabilidadeController {
         console.log("SERVICO ATIVO");
         return res.status(200).json({
             caixa: cxNome,
-            coordenadascx: cxCoord
+            coordenadascx: cxCoord,
+            distancia: teste.text
 
         });
     }
