@@ -46,7 +46,7 @@ class ViabilidadeController {
           // console.log("----------------------------------------------------")
           console.log(result);
           console.log("DISTANCIA:  " + resDistancia + "m");
-          console.log("----------------------------------------------------");
+          console.log("cxDistancia"+ cxDistancia);
 
           if ((cxDistancia == 0) & (resDistancia > 0)) {
               console.log("-----if1");
@@ -54,12 +54,16 @@ class ViabilidadeController {
               cxDistancia = resDistancia;
               cxCoord = LatCxs+","+LonCxs;
           }
-          if (cxDistancia > resDistancia) {
+          if (cxDistancia > parseInt(resDistancia)) {
               console.log("-----if2");
               cxNome = caixas[i].getDataValue("caixa");
               cxDistancia = resDistancia;
               cxCoord = LatCxs+","+LonCxs;
-            }
+              console.log("cxDistancia2 "+ cxDistancia);
+
+          }
+          console.log("----------------------------------------------------");
+
         } //FIM DO LOOP
         //////
         var config = {
