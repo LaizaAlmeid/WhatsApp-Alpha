@@ -1,4 +1,9 @@
+// import { dist_viabilidade } from "./Viabilidade"; 
+const { join } = require('path');
+const Caixas = require('./app/Models/table_caixas')
+
 const { Client,Location,List,Buttons, MessageMedia,LocalAuth,} = require("./index");
+
 
 var QRCode = require("qrcode");
 
@@ -60,6 +65,7 @@ const bodyParser = require("body-parser");
 const PingController = require("./app/Controllers/PingController");
 
 //autenticacao
+const ViabilidadeController = require("./app/Controllers/Viabilidade");
 const LoginController = require("./app/Controllers/LoginController");
 const AuthMidleware = require("./app/Midlewares/AuthMidleware");
 const { url } = require("inspector");
@@ -97,6 +103,17 @@ app.get("/ver", (req, res, next) => {
     }
     //res.render("index");
 });
+
+app.post("/viabilidade", AuthMidleware, (req, res) => {
+    //req - vem do bubble
+    var body = req.body;
+    // body.result.logradouro
+ 
+
+
+    return res.json(msgRecebida);
+});
+
 app.get("/MensagemRecebida", AuthMidleware, (req, res) => {
     return res.json(msgRecebida);
 });
@@ -180,6 +197,8 @@ app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
 
 app.post("/login", LoginController.index);
 
+app.post("/via", ViabilidadeController.index);
+
 app.post("/no_sleep", PingController.index);
 
 //---------------------------------------------------FECHA_ROTAS
@@ -199,8 +218,8 @@ async function post_env_alpha() {
             img: media_recebida_img,
             pdf: media_recebida_pdf,          
         };
-        //const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem", mensagembody);
-        const response = await axios.post("https://sistema-alpha.com.br/api/1.1/wf/ReceberMensagem", mensagembody);
+        const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/ReceberMensagem", mensagembody);
+        //const response = await axios.post("https://sistema-alpha.com.br/api/1.1/wf/ReceberMensagem", mensagembody);
         //STATUS 200
         console.log("Mensagem enviada -> Bubble.io //  Response Status: " + response.status);
     } catch (error) {
@@ -224,8 +243,8 @@ async function post_att_alpha() {
             stts: stt_att,
             id_msg: id_msg,
         };
-        //const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarMsg", body_att);
-        const response = await axios.post("https://sistema-alpha.com.br/api/1.1/wf/atualizarMsg", body_att);
+        const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarMsg", body_att);
+        //const response = await axios.post("https://sistema-alpha.com.br/api/1.1/wf/atualizarMsg", body_att);
         console.log("Mensagem atualizada // Response Status: "+response.status);
     } catch (error) {
         console.log(error);
@@ -238,8 +257,8 @@ async function post_qr_alpha() {
             qrcode: code_qr,
             logado: readyAlpha           
         };
-        //const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarQR",body_qr);
-        const response = await axios.post("https://sistema-alpha.com.br/api/1.1/wf/atualizarQR",body_qr);
+        const response = await axios.post("https://sistema-alpha.com.br/version-test/api/1.1/wf/atualizarQR",body_qr);
+        //const response = await axios.post("https://sistema-alpha.com.br/api/1.1/wf/atualizarQR",body_qr);
         console.log("QR code enviado -> Bubble.io // Response Status: " + response.status);
     } catch (error) {
         console.log(error);
