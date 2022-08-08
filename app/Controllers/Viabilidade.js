@@ -73,6 +73,7 @@ class ViabilidadeController {
             .then(function (response) {
                 const teste = response.data.routes[0].legs[0].distance;
                 console.log("DISTANCIA MÍNIMA É: " + teste.text+ "  //  "+ teste.value +"m");
+                dist= teste.value;
             })
             .catch(function (error) {
                 console.log(error);
@@ -85,7 +86,7 @@ class ViabilidadeController {
         return res.status(200).json({
             caixa: cxNome,
             coordenadascx: cxCoord,
-            distancia: teste.text
+            distancia: dist
 
         });
     }
