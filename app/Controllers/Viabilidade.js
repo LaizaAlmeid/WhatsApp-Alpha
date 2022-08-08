@@ -80,8 +80,12 @@ class ViabilidadeController {
         //////
 
         console.log("CAIXA ESCOLHIDA:" + cxNome);
+
+        console.log("SERVICO ATIVO");
         return res.status(200).json({
-            status: "CAIXA: " + cxNome,
+            caixa: cxNome,
+            coordenadascx: cxCoord
+
         });
     }
 }
