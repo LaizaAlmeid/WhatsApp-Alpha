@@ -59,7 +59,6 @@ class ViabilidadeController {
               cxNome = caixas[i].getDataValue("caixa");
               cxDistancia = resDistancia;
               cxCoord = LatCxs+","+LonCxs;
-
             }
         } //FIM DO LOOP
         //////
@@ -73,6 +72,8 @@ class ViabilidadeController {
             .then(function (response) {
                 const teste = response.data.routes[0].legs[0].distance;
                 console.log("DISTANCIA MÍNIMA É: " + teste.text+ "  //  "+ teste.value +"m");
+                cxDistancia = teste.value;
+                // console.log(cxDistancia);
             })
             .catch(function (error) {
                 console.log(error);
@@ -85,7 +86,7 @@ class ViabilidadeController {
         return res.status(200).json({
             caixa: cxNome,
             coordenadascx: cxCoord,
-            distancia: resDistancia
+            distancia: cxDistancia
         });
     }
 }
