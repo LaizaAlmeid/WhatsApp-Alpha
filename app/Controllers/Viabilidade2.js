@@ -1,27 +1,23 @@
-//const Caixas = require("../Models/table_caixas");
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
 const Caixas = require("../Models/table_caixas_omega");
 var axios = require("axios");
-
 
 class ViabilidadeController {
     async index(req, res) {
         const { latitude, longitude, empresa } = req.body.result;
-        //Tenta reduzir o numero de linhas da busca
-        var latAprox = latitude.substring(0, 5);
-        var lonAprox = longitude.substring(0, 5);
 
         const caixas = await Caixas.findAll({
             where: {
-              empresa: empresa,
-              latitude:{ [Op.like]: '%' +latAprox +'%' } ,
-              longitude:{ [Op.like]: '%' +lonAprox +'%' }
+              empresa: empresa
             }
           });
+        // COLOCAR DENTRO DO FINDALL
+        // {
+        //     where: {
+        //       empresa: 2
+        //     }
+        //   }
 
-        // console.log(caixas(---const---).every((caixas_alpha(---tabela---)) => caixas_alpha(---tabela---) instanceof Caixas(---const require---))); // TRUE
-        console.log(caixas.every((caixas_alpha) => caixas_alpha instanceof Caixas)); // TRUE
+        console.log(caixas.every((caixas) => caixas instanceof Caixas)); // TRUE
         console.log("ALL CAIXAS:", JSON.stringify(caixas, null, 2));
         console.log("----------------------------------------------------");
         console.log("TAMANHO DA TABELA:   " + caixas.length);
@@ -36,7 +32,7 @@ class ViabilidadeController {
         for (var i = 0; i < caixas.length; i++) {
             
         console.log(i);
-        console.log(caixas[i].getDataValue("descricao"));
+        console.log(caixas[i].getDataValue("caixa"));
 
         var LatCxs = caixas[i].getDataValue("latitude");
         var LonCxs = caixas[i].getDataValue("longitude");
@@ -62,10 +58,10 @@ class ViabilidadeController {
         console.log("cxDistancia: "+ cxDistancia + "m");
         
         //    300m media de distancia permitida
-        if ((cxDistancia == 0) & (0 < resDistancia < 300) & i==0) {
+        if ((cxDistancia == 0) & (0 < resDistancia < 300)) {
             console.log("-----if1-----");
             
-            cxNome = caixas[i].getDataValue("descricao");
+            cxNome = caixas[i].getDataValue("caixa");
             cxDistancia = resDistancia;
             cxCoord = LatCxs+","+LonCxs;
             viabilidadeStatus = "TRUE";
@@ -75,7 +71,7 @@ class ViabilidadeController {
         }
         if (cxDistancia > parseInt(resDistancia) & 300 > parseInt(resDistancia)) {
             console.log("-----if2-----");
-            cxNome = caixas[i].getDataValue("descricao");
+            cxNome = caixas[i].getDataValue("caixa");
             cxDistancia = resDistancia;
             cxCoord = LatCxs+","+LonCxs;
             viabilidadeStatus = "TRUE";
@@ -84,7 +80,7 @@ class ViabilidadeController {
         console.log("----------------------------------------------------");
         } 
         //FIM DO LOOP
-        // ////// API GOOGLE
+        ////// API GOOGLE
         var config = {
             method: "get",
             url: "https://maps.googleapis.com/maps/api/directions/json?origin="+cliCoord+"&destination="+cxCoord+"&mode=walking&key=AIzaSyC-LLiFh2rzmVQYTnHzizG1nI3VsJBNRkM",
@@ -102,7 +98,7 @@ class ViabilidadeController {
             .catch(function (error) {
                 console.log(error);
             });
-        // //////
+        //////
 
         console.log("CAIXA ESCOLHIDA:" + cxNome);
 
@@ -111,7 +107,7 @@ class ViabilidadeController {
             status: viabilidadeStatus,
             caixa: cxNome,
             coordenadascx: cxCoord,
-            coordenadasCli: cliCoord,
+            coordenadasCli: latitude+","+longitude,
             distancia_m: cxDistancia
         });
     }
