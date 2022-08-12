@@ -22,21 +22,24 @@ class ViabilidadeController {
 
         // console.log(caixas(---const---).every((caixas_alpha(---tabela---)) => caixas_alpha(---tabela---) instanceof Caixas(---const require---))); // TRUE
         console.log(caixas.every((caixas_alpha) => caixas_alpha instanceof Caixas)); // TRUE
-        console.log("ALL CAIXAS:", JSON.stringify(caixas, null, 2));
+        // console.log("ALL CAIXAS:", JSON.stringify(caixas, null, 2));
         console.log("----------------------------------------------------");
         console.log("TAMANHO DA TABELA:   " + caixas.length);
         console.log("----------------------------------------------------");
 
         var cliCoord = latitude+","+longitude;
         var cxDistancia = 0;
+        var cxDistanciaMaps = 0;
         var cxNome = "VAZIO";
         var cxCoord = ""
+        var LatCX_selected = ""
+        var LonCX_selected = ""
         var viabilidadeStatus = "FALSE"
         
         for (var i = 0; i < caixas.length; i++) {
             
-        console.log(i);
-        console.log(caixas[i].getDataValue("descricao"));
+        // console.log(i);
+        // console.log(caixas[i].getDataValue("descricao"));
 
         var LatCxs = caixas[i].getDataValue("latitude");
         var LonCxs = caixas[i].getDataValue("longitude");
@@ -56,10 +59,10 @@ class ViabilidadeController {
         var resDistancia = (raio * y).toFixed(); //EM METROS
 
         var distanciaEmKm = resDistancia / 1000;
-        console.log(distanciaEmKm + " Km");
+        // console.log(distanciaEmKm + " Km");
         // console.log("----------------------------------------------------")
-        console.log("DISTANCIA:  " + resDistancia + "m");
-        console.log("cxDistancia: "+ cxDistancia + "m");
+        // console.log("DISTANCIA:  " + resDistancia + "m");
+        // console.log("cxDistancia: "+ cxDistancia + "m");
         
         //    300m media de distancia permitida
         if ((cxDistancia == 0) & (0 < resDistancia < 300) & i==0) {
@@ -67,6 +70,8 @@ class ViabilidadeController {
             
             cxNome = caixas[i].getDataValue("descricao");
             cxDistancia = resDistancia;
+            LatCX_selected = LatCxs;
+            LonCX_selected = LonCxs;
             cxCoord = LatCxs+","+LonCxs;
             viabilidadeStatus = "TRUE";
             
@@ -77,11 +82,13 @@ class ViabilidadeController {
             console.log("-----if2-----");
             cxNome = caixas[i].getDataValue("descricao");
             cxDistancia = resDistancia;
+            LatCX_selected = LatCxs;
+            LonCX_selected = LonCxs;
             cxCoord = LatCxs+","+LonCxs;
             viabilidadeStatus = "TRUE";
             console.log("cxDistancia atualizada: "+ cxDistancia + "m");
         }
-        console.log("----------------------------------------------------");
+        // console.log("----------------------------------------------------");
         } 
         //FIM DO LOOP
         // ////// API GOOGLE
@@ -96,24 +103,29 @@ class ViabilidadeController {
                 const distance = response.data.routes[0].legs[0].distance;
                 console.log("DISTANCIA MÍNIMA É: " + distance.text+ "  //  "+ distance.value +"m");
                 //RECEBENDO A DISTANCIA DA CAIXA COM BASE NA ROTA GOOGLE
-                cxDistancia = distance.value;
                 // console.log(cxDistancia);
+
+                cxDistanciaMaps = distance.value;
+                console.log("CAIXA ESCOLHIDA:" + cxNome);
+        
+                console.log("REQUISIÇÃO CONCLUIDA");
+                return res.status(200).json({
+                    statusV: viabilidadeStatus,
+                    caixa: cxNome,
+                    latCli:latitude,
+                    lonCli:longitude,
+                    latCX:LatCX_selected,
+                    lonCX:LonCX_selected,
+                    distRow_m: cxDistancia,
+                    distMaps_m: cxDistanciaMaps
+                });
+
             })
             .catch(function (error) {
                 console.log(error);
             });
-        // //////
-
-        console.log("CAIXA ESCOLHIDA:" + cxNome);
-
-        console.log("SERVICO ATIVO");
-        return res.status(200).json({
-            status: viabilidadeStatus,
-            caixa: cxNome,
-            coordenadascx: cxCoord,
-            coordenadasCli: cliCoord,
-            distancia_m: cxDistancia
-        });
+        ///////
+      
     }
 }
 
