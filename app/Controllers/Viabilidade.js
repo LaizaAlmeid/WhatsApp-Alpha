@@ -19,7 +19,7 @@ class ViabilidadeController {
               longitude:{ [Op.like]: '%' +lonAprox +'%' }
             }
           });
-
+        if (caixas.length > 0) {
         // console.log(caixas(---const---).every((caixas_alpha(---tabela---)) => caixas_alpha(---tabela---) instanceof Caixas(---const require---))); // TRUE
         console.log(caixas.every((caixas_alpha) => caixas_alpha instanceof Caixas)); // TRUE
         // console.log("ALL CAIXAS:", JSON.stringify(caixas, null, 2));
@@ -125,7 +125,12 @@ class ViabilidadeController {
                 console.log(error);
             });
         ///////
-      
+        }else{
+            return res.status(200).json({
+                statusV: "sem viabilidade",
+                
+            });
+        }
     }
 }
 
