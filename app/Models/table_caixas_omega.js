@@ -50,6 +50,6 @@ const Caixas = db.define('caixas_alpha', {
   });
 
 //comando para criar tabela no bd caso n exista user.sync(); / user.sync({alter: true }) / user.sync({force: true});;
-      Caixas.sync({force: true});
+      Caixas.sync();
  
 module.exports = Caixas
