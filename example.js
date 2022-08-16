@@ -94,6 +94,11 @@ app.listen(port, () => {
     console.log("express started at http://localhost:3001 "+ ipAddress +" "+port);
 });
 
+
+app.get('/', function (req, res) {
+    res.send('API ESTA FUNCIONANDO!')
+  })
+  
 //Mostra a última mensagem recebida
 app.get("/ver", (req, res, next) => {
     if (ok == 1) {
