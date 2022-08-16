@@ -69,6 +69,8 @@ const ViabilidadeController = require("./app/Controllers/Viabilidade");
 const LoginController = require("./app/Controllers/LoginController");
 const AuthMidleware = require("./app/Midlewares/AuthMidleware");
 const { url } = require("inspector");
+const { SocketAddress } = require('net');
+const { hostname } = require('os');
 //
 const app = express();
 
@@ -83,10 +85,13 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "view"));
 
 //ROTAS------------------------------------------------
+const ip = require('ip');
+const ipAddress = ip.address();
+
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
-    var host = server.address().address;
-    console.log("express started at http://localhost:3001"+ host +" "+port);
+    var host = host
+    console.log("express started at http://localhost:3001 "+ ipAddress +" "+port);
 });
 
 //Mostra a última mensagem recebida
