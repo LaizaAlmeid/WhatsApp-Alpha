@@ -85,7 +85,7 @@ app.set("views", path.join(__dirname, "view"));
 //ROTAS------------------------------------------------
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
-    console.log("express started at http://localhost:3001");
+    console.log("express started at http://localhost:3001"+ port);
 });
 
 //Mostra a última mensagem recebida
