@@ -66,6 +66,7 @@ const PingController = require("./app/Controllers/PingController");
 
 //autenticacao
 const ViabilidadeController = require("./app/Controllers/Viabilidade");
+const EnderecosController = require("./app/Controllers/enderecosMk");
 const LoginController = require("./app/Controllers/LoginController");
 const AuthMidleware = require("./app/Midlewares/AuthMidleware");
 const { url } = require("inspector");
@@ -115,15 +116,15 @@ app.get("/ver", (req, res, next) => {
     //res.render("index");
 });
 
-app.post("/viabilidade", AuthMidleware, (req, res) => {
-    //req - vem do bubble
-    var body = req.body;
-    // body.result.logradouro
+// app.post("/viabilidade", AuthMidleware, (req, res) => {
+//     //req - vem do bubble
+//     var body = req.body;
+//     // body.result.logradouro
  
 
 
-    return res.json(msgRecebida);
-});
+//     return res.json(msgRecebida);
+// });
 
 app.get("/MensagemRecebida", AuthMidleware, (req, res) => {
     return res.json(msgRecebida);
@@ -208,7 +209,9 @@ app.post("/EnviarMensagem", AuthMidleware, (req, res) => {
 
 app.post("/login", LoginController.index);
 
-app.post("/via", ViabilidadeController.index);
+app.post("/viabilidade", ViabilidadeController.index);
+
+app.get("/enderecos", EnderecosController.index);
 
 app.post("/no_sleep", PingController.index);
 

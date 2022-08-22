@@ -1,0 +1,17 @@
+const Sequelize = require('sequelize')
+
+const sequelize = new Sequelize ('OMEGA-1.5','usuario','qwe123', {
+    host: '150.230.91.194',
+    dialect: 'mysql'
+});
+
+//VERIFICA SE A CONEXAO FOI BEM SUCEDIDA
+sequelize.authenticate()
+.then(() =>{
+    console.log("SUCESSO: CONEXAO COM SUCESSO =)")
+
+}).catch(()=>{
+    console.log("ERRO: CONEXAO SEM SUCESSO")
+})
+
+module.exports = sequelize;
