@@ -211,7 +211,7 @@ app.post("/login", LoginController.index);
 
 app.post("/viabilidade", ViabilidadeController.index);
 
-app.get("/enderecos", EnderecosController.index);
+app.post("/enderecos", EnderecosController.index);
 
 app.post("/no_sleep", PingController.index);
 
