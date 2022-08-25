@@ -47,6 +47,11 @@ const Enderecos = db.define("omieLig10_enderecos", {
         required: true,
         // allowNull defaults to true
     },
+    endereco_c: {
+        type: Sequelize.STRING,
+        required: true,
+        // allowNull defaults to true
+    },
 });
 
 //comando para criar tabela no bd caso n exista user.sync(); / user.sync({alter: true }) / user.sync({force: true});;
