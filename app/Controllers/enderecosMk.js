@@ -6,7 +6,7 @@ var axios = require("axios");
 
 class EnderecosController {
     async index(req, res) {
-        const { logradouro, bairro, cidade } = req.body.result;
+        const { logradouro, bairro, cidade, empresa} = req.body.result;
         console.log(`JSON logradouro:${logradouro}`);
 //------------------1
         if (
@@ -21,6 +21,7 @@ class EnderecosController {
                         { cidade: cidade },
                         { bairro: bairro },
                     ],
+                    empresa: empresa
                 },
             });
             if (enderecos.length > 0) {
@@ -48,6 +49,7 @@ class EnderecosController {
                         { logradouro: logradouro, cidade: cidade },
                         { bairro: bairro, cidade: cidade },
                     ],
+                    empresa: empresa
                 },
             });
             if (enderecos.length > 0) {
@@ -69,6 +71,7 @@ class EnderecosController {
                     logradouro: logradouro,
                     bairro: bairro,
                     cidade: cidade,
+                    empresa: empresa
                 },
             });
             if (enderecos.length > 0) {

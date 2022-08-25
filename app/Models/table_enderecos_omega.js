@@ -41,6 +41,11 @@ const Enderecos = db.define("omieLig10_enderecos", {
         type: Sequelize.STRING,
         required: true,
         // allowNull defaults to true
+    }, 
+    empresa: {
+        type: Sequelize.STRING,
+        required: true,
+        // allowNull defaults to true
     },
 });
 
