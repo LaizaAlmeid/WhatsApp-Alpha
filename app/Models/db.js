@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 
-const sequelize = new Sequelize ('heroku_a6a71d06eff9fb7','bec9c28c8f1977','3c70ea67', {
-    host: 'us-cdbr-east-06.cleardb.net',
+const sequelize = new Sequelize ('u936722494_DB_Omega','u936722494_alpha','Alpha@123', {
+    host: 'sql540.main-hosting.eu',
     dialect: 'mysql'
 });
 
