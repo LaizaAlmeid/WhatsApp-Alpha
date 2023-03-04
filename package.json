@@ -50,9 +50,10 @@
     "node-fetch": "^2.6.5",
     "node-webpmux": "^3.1.0",
     "nodemon": "^2.0.19",
-    "puppeteer": "^13.0.0",
+    "puppeteer": "^13.7.0",
     "qrcode": "^1.5.0",
-    "sequelize": "^6.21.2"
+    "sequelize": "^6.21.2",
+    "whatsapp-web.js": "^1.19.4"
   },
   "devDependencies": {
     "@types/node-fetch": "^2.5.12",

@@ -66,7 +66,7 @@ const PingController = require("./app/Controllers/PingController");
 
 //autenticacao
 const ViabilidadeController = require("./app/Controllers/Viabilidade");
-const EnderecosController = require("./app/Controllers/enderecosMk");
+// const EnderecosController = require("./app/Controllers/enderecosMk");
 const LoginController = require("./app/Controllers/LoginController");
 const AuthMidleware = require("./app/Midlewares/AuthMidleware");
 const { url } = require("inspector");
@@ -211,7 +211,7 @@ app.post("/login", LoginController.index);
 
 app.post("/viabilidade", ViabilidadeController.index);
 
-app.post("/enderecos", EnderecosController.index);
+// app.post("/enderecos", EnderecosController.index);
 
 app.post("/no_sleep", PingController.index);
 
